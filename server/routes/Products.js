@@ -8,8 +8,10 @@ router.get('/', async (req,res) => {
     res.json(allProducts)
 })
 
-router.get('/:id', (req,res) => {
-    res.send('get product by id')
+router.get('/:id', async (req,res) => {
+    const id = req.params.id
+    const product = await Products.findByPk(id)
+    res.send(product)
 })
 
 router.post('/add', async (req,res) => {
@@ -17,8 +19,8 @@ router.post('/add', async (req,res) => {
     //say, we have a form at the frontend to add products and we recieve data for our product table in the form of a json object
 
     const product = req.body
-    await Products.create(product)
-    res.json(product)
+    const newProduct = await Products.create(product)
+    res.json(newProduct)
 })
 
 router.put('/:id', (req,res) => {
@@ -28,7 +30,5 @@ router.put('/:id', (req,res) => {
 router.delete('/:id', (req,res) => {
     //delete product
 })
-
-
 
 module.exports = router

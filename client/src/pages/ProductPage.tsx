@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Product {
   product_id: number;
@@ -24,14 +24,20 @@ const ProductPage: React.FC = () => {
     });
   }, []);
 
+  let navigate = useNavigate()
+
   return (
     <>
     <Link to="/products/add">
         <button className = 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Add Product</button>
     </Link>
       {allProducts.map((item) => (
-        <div key={item.product_id}>
+        <div className='cursor-pointer' key={item.product_id} onClick={() => {
+          navigate(`/products/${item.product_id}`)
+        }}>
+          {/* <Link to={`/products/${item.product_id}`}> */}
           <h1 className='text-xl font-bold text-blue-700 mt-4'>{item.name}</h1>
+          {/* </Link> */}
           <p>{item.description}</p>
           <p>Price: ${item.price}</p>
           <p>Category: {item.category}</p>

@@ -8,8 +8,13 @@ app.use(cors())
 
 //Routers
 const productRouter = require('./routes/Products')
+const userRouter = require('./routes/Users')
+const reviewRouter = require('./routes/Reviews')
 
 app.use('/products', productRouter)
+app.use('/users', userRouter)
+app.use('/products/reviews', reviewRouter)
+
 
 const db = require('./models')
 
@@ -19,7 +24,7 @@ db.Users.hasMany(db.Orders, { foreignKey: 'user_id' });
 db.Users.hasOne(db.Carts, { foreignKey: 'user_id' });
 
 //associations for Products table
-db.Products.hasMany(db.Reviews, { foreignKey: 'product_id' });
+db.Products.hasMany(db.Reviews, { foreignKey: 'product_id', onDelete: 'cascade' });
 
 //associations for Reviews table
 db.Reviews.belongsTo(db.Products, { foreignKey: 'product_id' });
